@@ -1,0 +1,71 @@
+name: Terraform Deployment Minecraft Server
+on:
+  workflow_dispatch:
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      ENV_VAR: ${{ vars.ENV }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ vars.TF_VERSION }}
+
+      - name: DEBUG - Show ENV_VAR
+        run: echo "Environment is ${{ vars.ENV }}"
+
+      - name: Terraform Init
+        run: terraform init -backend-config="${{ vars.BACKEND_TF_CONFIG_PATH }}backend_${{ vars.ENV }}.conf"
+
+      - name: Terraform Workspace Select
+        run: terraform workspace select -or-create ${{ vars.ENV }}
+      
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
+  apply:
+    needs: plan
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ vars.TF_VERSION }}
+
+      - name: Terraform Init
+        run: terraform init -backend-config="${{ vars.BACKEND_TF_CONFIG_PATH }}backend_${{ vars.ENV }}.conf"
+
+      - name: Terraform Workspace Select
+        run: terraform workspace select -or-create ${{ vars.ENV }}
+      
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve
+       # Show output values FOR TESTING!!!!
+      - name: Terraform Output with json - TESTING ONLY 
+        run: terraform output -json
