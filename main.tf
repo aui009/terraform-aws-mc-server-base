@@ -31,5 +31,12 @@ resource aws_s3_object "upload_files_mc_server_config_files" {
   bucket = aws_s3_bucket.mc_server_config-files.id
   key = each.value
   source = "./S3_files/mc-static-files/${each.value}"
-  
+
+}
+
+resource aws_s3_object "empty_folders_bedrock" {
+  for_each = toset(local.empty_folders_bedrock)
+  bucket = aws_s3_bucket.mc_server_config-files.id
+  key = each.value
+  content_type = "application/x-directory"
 }
