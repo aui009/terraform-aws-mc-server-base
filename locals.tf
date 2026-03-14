@@ -5,8 +5,8 @@ locals{
     }
 
     empty_folders_bedrock = [
-        "bedrock/migration/sucess",
-        "bedrock/migration/error"
+        "bedrock/migration/sucess/",
+        "bedrock/migration/error/"
     ]
 
     region = "ap-southeast-1"
