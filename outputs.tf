@@ -5,5 +5,5 @@ output "discord_webhook_layer_arn" {
 
 output "mc_server_config_files_bucket_id" {
   description = "The ID of the S3 bucket for Minecraft server config files"
-  value       = aws_s3_bucket.mc_server_config-files.bucket.id
+  value       = aws_s3_bucket.mc_server_config-files.id
 }
