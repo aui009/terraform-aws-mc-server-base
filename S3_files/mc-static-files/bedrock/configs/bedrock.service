@@ -1,0 +1,12 @@
+[Unit]
+Description=Minecraft Bedrock Server
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/opt/minecraft/server
+Restart=always
+ExecStart=/bin/bash -c "sudo LD_LIBRARY_PATH=. ./bedrock_server"
+
+[Install]
+WantedBy=multi-user.target
