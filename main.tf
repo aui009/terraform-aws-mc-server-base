@@ -10,6 +10,14 @@ resource "aws_lambda_layer_version" "discord_webhook_layer" {
   source_code_hash = filebase64sha256("${path.module}/lambda_layer_files/discord_webhook_layer.zip" )
 }
 
+resource "aws_lambda_layer_version" "requests_layer" {
+  filename   = "${path.module}/lambda_layer_files/requests_layer.zip"
+  layer_name = "requests_layer"
+  description = "A Lambda layer containing the requests library"
+  compatible_runtimes = ["python3.14"]
+
+  source_code_hash = filebase64sha256("${path.module}/lambda_layer_files/requests_layer.zip" )
+}
 
 ####################################################################
 #                         S3 Bucket Configs                        #

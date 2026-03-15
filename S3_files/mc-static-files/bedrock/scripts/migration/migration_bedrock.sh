@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 echo "$(date +'%Y-%m-%d %H:%M:%S'): Starting Bedrock world migration process"
 cd /opt/minecraft/server/
 # Stop the Bedrock server before migration
@@ -29,7 +31,7 @@ sudo rm -rf ./worlds/'Bedrock level'/*
 
 # Move the unzipped world files to the server directory, overwriting existing files
 echo "$(date +'%Y-%m-%d %H:%M:%S'): Moving migration world files to server world directory"
-sudo cp -r ./migration_staging/target_mcworld/* ./worlds/'Bedrock level'/
+sudo cp -r ./migration_staging/. ./worlds/'Bedrock level'/
 
 # Clean up staging directory after migration
 echo "$(date +'%Y-%m-%d %H:%M:%S'): Cleaning up staging directory"
