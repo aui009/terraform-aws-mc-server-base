@@ -48,3 +48,13 @@ resource aws_s3_object "empty_folders_bedrock" {
   key = each.value
   content_type = "application/x-directory"
 }
+
+####################################################################
+#                         AWS SSM Parameters                       #
+####################################################################
+
+resource aws_ssm_parameter "environment" {
+  name = "/minecraft_server/${terraform.workspace}/environment"
+  type = "String"
+  value = terraform.workspace
+}
