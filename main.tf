@@ -62,11 +62,6 @@ resource aws_ssm_parameter "environment" {
 ####################################################################
 #                         AWS SQS Queues                           #
 ####################################################################
-import {
-  to = aws_sqs_queue.mc_server_miku_queue
-  id = "https://sqs.ap-southeast-1.amazonaws.com/523761210076/miku-test-queue"
-}
-
 resource "aws_sqs_queue" "mc_server_miku_queue" {
   name = "miku-test-queue"
   delay_seconds = 0
