@@ -39,7 +39,7 @@ resource aws_s3_object "upload_files_mc_server_config_files" {
   bucket = aws_s3_bucket.mc_server_config-files.id
   key = each.value
   source = "./S3_files/mc-static-files/${each.value}"
-
+  etag = filemd5("./S3_files/mc-static-files/${each.value}")
 }
 
 resource aws_s3_object "empty_folders_bedrock" {
