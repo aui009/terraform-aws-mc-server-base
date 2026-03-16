@@ -54,7 +54,7 @@ resource aws_s3_object "empty_folders_bedrock" {
 ####################################################################
 
 resource aws_ssm_parameter "environment" {
-  name = "/minecraft_server/${terraform.workspace}/environment"
+  name = "MC-environment"
   type = "String"
   value = terraform.workspace
 }
