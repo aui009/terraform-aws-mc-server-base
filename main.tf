@@ -19,6 +19,15 @@ resource "aws_lambda_layer_version" "requests_layer" {
   source_code_hash = filebase64sha256("${path.module}/lambda_layer_files/requests_layer.zip" )
 }
 
+resource "aws_lambda_layer_version" "tenacity_py_layer" {
+  filename   = "${path.module}/lambda_layer_files/tenacity_py_layer.zip"
+  layer_name = "tenacity_py_layer"
+  description = "A Lambda layer containing the tenacity library for Python"
+  compatible_runtimes = ["python3.14"]
+  
+  source_code_hash = filebase64sha256("${path.module}/lambda_layer_files/tenacity_py_layer.zip" )
+}
+
 ####################################################################
 #                         S3 Bucket Configs                        #
 ####################################################################
