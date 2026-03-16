@@ -56,5 +56,45 @@ resource aws_s3_object "empty_folders_bedrock" {
 resource aws_ssm_parameter "environment" {
   name = "MC-environment"
   type = "String"
-  value = terraform.workspace
+  value = locals.environment
+}
+
+####################################################################
+#                         AWS SQS Queues                           #
+####################################################################
+import {
+  to = aws_sqs_queue.mc_server_miku_queue
+  identity = {
+    url = "https://sqs.ap-southeast-1.amazonaws.com/523761210076/miku-test-queue"
+  }
+}
+
+resource "aws_sqs_queue" "mc_server_miku_queue" {
+  name = "miku-test-queue"
+  delay_seconds = 0
+  visibility_timeout_seconds = 60
+  max_message_size = 1024
+  message_retention_seconds = 84600
+  receive_wait_time_seconds = 10
+
+  tags = local.tags
+}
+
+resource aws_sqs_queue_policy "mc_server_miku_queue_policy" {
+  queue_url = aws_sqs_queue.mc_server_miku_queue.id
+  policy = jsonencode({
+  "Version": "2012-10-17",
+  "Id": "__default_policy_ID",
+  "Statement": [
+    {
+      "Sid": "__owner_statement",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::523761210076:root"
+      },
+      "Action": "SQS:*",
+      "Resource": aws_sqs_queue.mc_server_miku_queue.arn
+    }
+  ]
+})
 }
