@@ -64,9 +64,7 @@ resource aws_ssm_parameter "environment" {
 ####################################################################
 import {
   to = aws_sqs_queue.mc_server_miku_queue
-  identity = {
-    url = "https://sqs.ap-southeast-1.amazonaws.com/523761210076/miku-test-queue"
-  }
+  id = "https://sqs.ap-southeast-1.amazonaws.com/523761210076/miku-test-queue"
 }
 
 resource "aws_sqs_queue" "mc_server_miku_queue" {
