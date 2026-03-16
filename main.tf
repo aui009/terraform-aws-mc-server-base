@@ -56,7 +56,7 @@ resource aws_s3_object "empty_folders_bedrock" {
 resource aws_ssm_parameter "environment" {
   name = "MC-environment"
   type = "String"
-  value = locals.environment
+  value = local.environment
 }
 
 ####################################################################
