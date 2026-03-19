@@ -33,3 +33,8 @@ output "miku_queue_url" {
   description = "The URL of the SQS queue for Minecraft server Miku notifications"
   value       = aws_sqs_queue.mc_server_miku_queue.id
 }
+
+output "miku_queue_sqs_arn" {
+  description = "The arn of of SQS queue for Minecraft server Miku notifications"
+  value = aws_sqs_queue.mc_server_miku_queue.arn
+}
