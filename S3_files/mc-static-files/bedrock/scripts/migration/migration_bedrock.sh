@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+# Set environment variable for ssm parameter
+ENV=$(sudo aws ssm get-parameter --name "MC-environment" --with-decryption --query Parameter.Value --output text)
 
 echo "$(date +'%Y-%m-%d %H:%M:%S'): Starting Bedrock world migration process"
 cd /opt/minecraft/server/
@@ -16,7 +18,7 @@ sudo cp -r worlds worlds_backup
 
 # Copy existing server files to the staging directory
 echo "$(date +'%Y-%m-%d %H:%M:%S'): Copying migration files to staging directory"
-sudo aws s3 cp s3://mc-server-ap-southeast-1-config-files-dev/bedrock/migration/staging/target_mcworld.zip ./migration_staging/
+sudo aws s3 cp s3://mc-server-ap-southeast-1-config-files-$ENV/bedrock/migration/staging/target_mcworld.zip ./migration_staging/
 
 # Unzip the target world file
 echo "$(date +'%Y-%m-%d %H:%M:%S'): Extracting migration world file"
