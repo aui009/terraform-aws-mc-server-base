@@ -1,0 +1,12 @@
+[Unit]
+Description=Minecraft Bedrock Server
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/opt/minecraft/server
+Restart=always
+ExecStart=/usr/bin/screen -L -Logfile /opt/minecraft/logs/minecraft_screen_logs.log -DmS minecraft /usr/bin/bash -c "sudo LD_LIBRARY_PATH=. ./bedrock_server"
+
+[Install]
+WantedBy=multi-user.target

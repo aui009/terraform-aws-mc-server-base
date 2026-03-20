@@ -1,0 +1,12 @@
+[Unit]
+Description=Minecraft Bedrock Server
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/opt/minecraft/scripts
+Restart=always
+ExecStart=/usr/bin/bash monitor_players_spawn.sh
+
+[Install]
+WantedBy=multi-user.target
