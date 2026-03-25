@@ -1,0 +1,13 @@
+[Unit]
+Description=Minecraft Java Server
+After=network.target
+
+[Service]
+Type=forking
+User=minecraft
+WorkingDirectory=/opt/minecraft/server
+ExecStart=/usr/bin/bash /opt/minecraft/scripts/start_java_mc.sh
+StandardInput=null
+
+[Install]
+WantedBy=multi-user.target

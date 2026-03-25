@@ -6,7 +6,7 @@ After=network.target
 User=ubuntu
 WorkingDirectory=/opt/minecraft/server
 Restart=always
-ExecStart=/usr/bin/screen -L -Logfile /opt/minecraft/logs/minecraft_screen_logs.log -DmS minecraft /usr/bin/bash -c "sudo LD_LIBRARY_PATH=. ./bedrock_server"
+ExecStart=/usr/bin/screen -L -Logfile /opt/minecraft/logs/minecraft_screen_logs.log -DmS minecraft /usr/bin/bash -c "bash /opt/minecraft/scripts/start_mc_server.sh"
 
 [Install]
 WantedBy=multi-user.target
