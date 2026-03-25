@@ -20,6 +20,9 @@ locals{
         "bedrock/migration/sucess/",
         "bedrock/migration/error/",
         "bedrock/backup/",
+        "java/migration/sucess/",
+        "java/migration/error/",
+        "java/backup/",
     ]
 
     region = "ap-southeast-1"
