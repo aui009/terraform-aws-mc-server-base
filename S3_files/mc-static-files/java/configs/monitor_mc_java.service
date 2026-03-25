@@ -1,0 +1,14 @@
+[Unit]
+Description=Monitor Minecraft Java Server
+After=network.target minecraft_java.service
+BindsTo=minecraft_java.service
+
+[Service]
+Type=forking
+User=minecraft
+WorkingDirectory=/opt/minecraft/scripts
+Restart=on-failure
+ExecStart=/usr/bin/screen -dmS monitor_player_activities /usr/bin/bash -c "bash /opt/minecraft/scripts/monitor_activities_java_mc.sh;exec bash"
+
+[Install]
+WantedBy=multi-user.target
