@@ -58,6 +58,13 @@ resource aws_s3_object "empty_folders_bedrock" {
   content_type = "application/x-directory"
 }
 
+resource aws_s3_object "empty_folders_java" {
+  for_each = toset(local.empty_folders_java)
+  bucket = aws_s3_bucket.mc_server_config-files.id
+  key = each.value
+  content_type = "application/x-directory"
+}
+
 ####################################################################
 #                         AWS SSM Parameters                       #
 ####################################################################

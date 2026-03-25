@@ -20,10 +20,14 @@ locals{
         "bedrock/migration/sucess/",
         "bedrock/migration/error/",
         "bedrock/backup/",
+        
+    ]
+
+    empty_folders_java = [
         "java/migration/sucess/",
         "java/migration/error/",
         "java/backup/",
-    ]
+        ]
 
     region = "ap-southeast-1"
 
