@@ -36,5 +36,20 @@ output "miku_queue_url" {
 
 output "miku_queue_sqs_arn" {
   description = "The arn of of SQS queue for Minecraft server Miku notifications"
-  value = aws_sqs_queue.mc_server_miku_queue.arn
+  value       = aws_sqs_queue.mc_server_miku_queue.arn
 }
+
+###########################################################
+#                   SSM Document Outputs                   
+###########################################################
+
+output "ssm_warning_msg_command_name" {
+  description = "The name of SSM Command ssm_warning_msg_command"
+  value       = aws_ssm_document.ssm_warning_msg_command.name
+}
+
+output "ssm_backup_run_command_name" {
+  description = "The name of SSM Command ssm_run_backup_script_command"
+  value       = aws_ssm_document.ssm_run_backup_script_command.name
+}
+
