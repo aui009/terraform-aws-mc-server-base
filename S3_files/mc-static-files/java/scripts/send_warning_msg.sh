@@ -2,7 +2,7 @@
 
 set -e
 
-LAMBDA_FUNCTION="mc_sendSQSPlayerEvent_handler"
+LAMBDA_FUNCTION="sendSQSMikuAnnouncement_handler"
 detail_type="Server Shutdown Warning"
 server_message="Warning: Server will be shutting down in 1 hour..."
 echo "$(date +'%Y-%m-%d %H:%M:%S'): Sending Warning Message to Server and Discord Channel..."
