@@ -43,13 +43,13 @@ output "miku_queue_sqs_arn" {
 #                   SSM Document Outputs                   
 ###########################################################
 
-output "ssm_warning_msg_command_arn" {
-  description = "The arn of SSM Command ssm_warning_msg_command"
-  value       = aws_ssm_document.ssm_warning_msg_command.arn
+output "ssm_warning_msg_command_name" {
+  description = "The name of SSM Command ssm_warning_msg_command"
+  value       = aws_ssm_document.ssm_warning_msg_command.name
 }
 
-output "ssm_backup_run_command_arn" {
-  description = "The arn of SSM Command ssm_run_backup_script_command"
-  value       = aws_ssm_document.ssm_run_backup_script_command.arn
+output "ssm_backup_run_command_name" {
+  description = "The name of SSM Command ssm_run_backup_script_command"
+  value       = aws_ssm_document.ssm_run_backup_script_command.name
 }
 
