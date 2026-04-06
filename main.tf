@@ -104,6 +104,32 @@ resource "aws_ssm_document" "ssm_warning_msg_command" {
   DOC
 
 }
+
+resource "aws_ssm_document" "ssm_run_backup_script_command" {
+  name            = "RunSSMBackupScriptCommand"
+  document_type   = "Command"
+  target_type     = "/AWS::EC2::Instance"
+  document_format = "JSON"
+
+  content = <<DOC
+  {
+  "schemaVersion": "2.2",
+  "description": "Command Document for Backup Script in MC Server",
+  "mainSteps": [
+    {
+      "action": "aws:runShellScript",
+      "name": "example",
+      "inputs": {
+        "workingDirectory": "/opt/minecraft/scripts",
+        "runCommand": [
+          "bash /opt/minecraft/scripts/backup_mc_script.sh"
+        ]
+      }
+    }
+  ]
+  }
+  DOC
+}
 ####################################################################
 #                         AWS SQS Queues                           
 ####################################################################
