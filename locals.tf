@@ -1,10 +1,12 @@
 locals {
   env_vars = {
     dev = {
-
+      server_sched_time_wkday = "19:00 to 20:00"
+      server_sched_time_wkend = "19:00 to 20:00"
     }
     prod = {
-
+      server_sched_time_wkday = "19:00 to 00:00"
+      server_sched_time_wkend = "13:00 to 00:00"
     }
     default = {
 
