@@ -75,6 +75,18 @@ resource "aws_ssm_parameter" "environment" {
   value = local.environment
 }
 
+resource "aws_ssm_parameter" "server_time_sched_wkday" {
+  name  = "MC-server-time-sched-wkday"
+  type  = "String"
+  value = local.env_vars[local.environment].server_sched_time_wkday
+}
+
+resource "aws_ssm_parameter" "server_time_sched_wkend" {
+  name  = "MC-server-time-sched-wkend"
+  type  = "String"
+  value = local.env_vars[local.environment].server_sched_time_wkend
+}
+
 ####################################################################
 #                         AWS SSM Documents                       
 ####################################################################
@@ -138,7 +150,7 @@ resource "aws_sqs_queue" "mc_server_miku_queue" {
   delay_seconds              = 0
   visibility_timeout_seconds = 60
   max_message_size           = 1048576
-  message_retention_seconds  = 84600
+  message_retention_seconds  = 60
   receive_wait_time_seconds  = 0
 
   tags = local.tags
