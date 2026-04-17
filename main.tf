@@ -185,6 +185,6 @@ resource "aws_secretsmanager_secret" "bot_miku_api_keys" {
 }
 
 import {
-  to = aws_lambda_layer_version.discord_webhook_layer
+  to = aws_secretsmanager_secret.bot_miku_api_keys
   id = "arn:aws:secretsmanager:ap-southeast-1:523761210076:secret:/dev/bot_miku_api_keys-HT5yFA"
 }
