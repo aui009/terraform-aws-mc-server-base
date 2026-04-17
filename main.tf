@@ -183,8 +183,3 @@ resource "aws_secretsmanager_secret" "bot_miku_api_keys" {
   description = "stores api keys for bot Miku"
 
 }
-
-import {
-  to = aws_secretsmanager_secret.bot_miku_api_keys
-  id = "arn:aws:secretsmanager:ap-southeast-1:523761210076:secret:/dev/bot_miku_api_keys-HT5yFA"
-}
