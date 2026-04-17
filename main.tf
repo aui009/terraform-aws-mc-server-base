@@ -174,3 +174,17 @@ resource "aws_sqs_queue_policy" "mc_server_miku_queue_policy" {
     ]
   })
 }
+
+####################################################################
+#                         AWS Secret Manager                          
+####################################################################
+resource "aws_secretsmanager_secret" "bot_miku_api_keys" {
+  name        = "/${local.environment}/bot_miku_api_keys"
+  description = "stores api keys for bot Miku"
+
+}
+
+import {
+  to = aws_lambda_layer_version.discord_webhook_layer
+  id = "arn:aws:secretsmanager:ap-southeast-1:523761210076:secret:/dev/bot_miku_api_keys-HT5yFA"
+}
