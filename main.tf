@@ -150,7 +150,7 @@ resource "aws_sqs_queue" "mc_server_miku_queue" {
   delay_seconds              = 0
   visibility_timeout_seconds = 60
   max_message_size           = 1048576
-  message_retention_seconds  = 60
+  message_retention_seconds  = 3600
   receive_wait_time_seconds  = 0
 
   tags = local.tags
