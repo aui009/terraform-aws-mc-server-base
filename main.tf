@@ -79,12 +79,20 @@ resource "aws_ssm_parameter" "server_time_sched_wkday" {
   name  = "MC-server-time-sched-wkday"
   type  = "String"
   value = local.env_vars[local.environment].server_sched_time_wkday
+
+  lifecycle {
+    ignore_changes = [value]
+  }
 }
 
 resource "aws_ssm_parameter" "server_time_sched_wkend" {
   name  = "MC-server-time-sched-wkend"
   type  = "String"
   value = local.env_vars[local.environment].server_sched_time_wkend
+
+  lifecycle {
+    ignore_changes = [value]
+  }
 }
 
 ####################################################################
