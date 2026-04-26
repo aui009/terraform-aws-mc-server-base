@@ -53,3 +53,8 @@ output "ssm_backup_run_command_name" {
   value       = aws_ssm_document.ssm_run_backup_script_command.name
 }
 
+output "ssm_create_snapshot_ec2_command_arn" {
+  description = "The ARN of SSM Command ssm_create_snapshot_ec2_command"
+  value       = aws_ssm_document.ssm_create_snapshot_ec2_command.arn
+}
+
