@@ -156,7 +156,7 @@ resource "aws_ssm_document" "ssm_create_snapshot_ec2_command" {
   document_type   = "Automation"
   document_format = "JSON"
 
-  content = jsondecode({
+  content = jsonencode({
     "schemaVersion" : "0.3",
     "description" : "Create EBS volume snapshot",
     "assumeRole" : "{{ AutomationAssumeRole }}",
@@ -255,7 +255,6 @@ resource "aws_ssm_document" "ssm_create_snapshot_ec2_command" {
       "createSnapshot.Payload"
     ]
     }
-
   )
 }
 ####################################################################
