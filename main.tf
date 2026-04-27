@@ -215,11 +215,15 @@ resource "aws_ssm_document" "ssm_create_snapshot_ec2_command" {
             },
             {
               "Key" : "Environment",
-              "Value" : "Dev"
+              "Value" : "${local.environment}"
             },
             {
               "Key" : "SnapshotId",
               "Value" : "{{ createSnapshot.Payload }}"
+            },
+            {
+              "Key" : "AMI_Image_Created",
+              "Value" : "False"
             }
           ],
           "Resources" : [
