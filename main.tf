@@ -79,12 +79,20 @@ resource "aws_ssm_parameter" "server_time_sched_wkday" {
   name  = "MC-server-time-sched-wkday"
   type  = "String"
   value = local.env_vars[local.environment].server_sched_time_wkday
+
+  lifecycle {
+    ignore_changes = [value]
+  }
 }
 
 resource "aws_ssm_parameter" "server_time_sched_wkend" {
   name  = "MC-server-time-sched-wkend"
   type  = "String"
   value = local.env_vars[local.environment].server_sched_time_wkend
+
+  lifecycle {
+    ignore_changes = [value]
+  }
 }
 
 ####################################################################
@@ -141,6 +149,117 @@ resource "aws_ssm_document" "ssm_run_backup_script_command" {
   ]
   }
   DOC
+}
+
+resource "aws_ssm_document" "ssm_create_snapshot_ec2_command" {
+  name            = "CreateSnapshotEc2Command"
+  document_type   = "Automation"
+  document_format = "JSON"
+
+  content = jsonencode({
+    "schemaVersion" : "0.3",
+    "description" : "Create EBS volume snapshot",
+    "assumeRole" : "{{ AutomationAssumeRole }}",
+    "parameters" : {
+      "VolumeId" : {
+        "type" : "String",
+        "description" : "(Required) The ID of the volume."
+      },
+      "Description" : {
+        "type" : "String",
+        "description" : "(Optional) A description for the snapshot",
+        "default" : ""
+      },
+      "AutomationAssumeRole" : {
+        "type" : "String",
+        "description" : "(Optional) The ARN of the role that allows Automation to perform the actions on your behalf. ",
+        "default" : ""
+      }
+    },
+    "mainSteps" : [
+      {
+        "name" : "createSnapshot",
+        "action" : "aws:executeAwsApi",
+        "nextStep" : "CreateTags",
+        "isEnd" : false,
+        "inputs" : {
+          "Service" : "ec2",
+          "Api" : "CreateSnapshot",
+          "VolumeId" : "{{ VolumeId }}",
+          "Description" : "{{ Description }}"
+        },
+        "outputs" : [
+          {
+            "Name" : "Payload",
+            "Selector" : "SnapshotId",
+            "Type" : "String"
+          }
+        ]
+      },
+      {
+        "name" : "CreateTags",
+        "action" : "aws:executeAwsApi",
+        "nextStep" : "verifySnapshot",
+        "isEnd" : false,
+        "inputs" : {
+          "Service" : "ec2",
+          "Api" : "CreateTags",
+          "Tags" : [
+            {
+              "Key" : "CreatedBy",
+              "Value" : "SSMAutomation"
+            },
+            {
+              "Key" : "Backup",
+              "Value" : "True"
+            },
+            {
+              "Key" : "Environment",
+              "Value" : "${local.environment}"
+            },
+            {
+              "Key" : "SnapshotId",
+              "Value" : "{{ createSnapshot.Payload }}"
+            },
+            {
+              "Key" : "AMI_Image_Created",
+              "Value" : "False"
+            }
+          ],
+          "Resources" : [
+            "{{ createSnapshot.Payload }}"
+          ]
+        },
+        "outputs" : [
+          {
+            "Type" : "String",
+            "Name" : "Payload",
+            "Selector" : "SnapshotId"
+          }
+        ]
+      },
+      {
+        "name" : "verifySnapshot",
+        "action" : "aws:waitForAwsResourceProperty",
+        "isEnd" : true,
+        "inputs" : {
+          "Service" : "ec2",
+          "Api" : "DescribeSnapshots",
+          "SnapshotIds" : [
+            "{{createSnapshot.Payload}}"
+          ],
+          "PropertySelector" : "Snapshots[0].State",
+          "DesiredValues" : [
+            "completed"
+          ]
+        }
+      }
+    ],
+    "outputs" : [
+      "createSnapshot.Payload"
+    ]
+    }
+  )
 }
 ####################################################################
 #                         AWS SQS Queues                           

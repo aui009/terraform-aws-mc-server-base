@@ -1,9 +1,10 @@
 name: Deployment Minecraft Server - Plan Only
 on:
-  push:
-    branches:
-      - dev
-      - prod
+  #Uncomment the following lines to enable automatic deployment plan on push to dev and prod branches. For now, we will only enable manual trigger for deployment plan.
+  #push:
+  #  branches:
+  #    - dev
+  #    - prod
   workflow_dispatch:
 
 jobs:
